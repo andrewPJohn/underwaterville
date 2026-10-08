@@ -1,4 +1,10 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Underwaterville: a flood-manager game for first-year engineering students.">
+<style>[hidden]{display:none!important}</style>
 <title>Underwaterville</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +24,7 @@
   --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
   --masthead:"UnifrakturMaguntia","Old English Text MT",Georgia,serif;
-  --r:10px;
+  --r:10px; --on-accent:#ffffff;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0d1a20; --surface:#14242c; --surface-2:#1a2d36; --sunk:#0f1e25;
@@ -28,7 +34,7 @@
   --know:#9c92f2; --protect:#d9a352; --plan:#56c487; --prepare:#ff8c42;
   --know-t:#262350; --protect-t:#3a2c14; --plan-t:#173a27; --prepare-t:#41230f;
   --hivis:#f2c94c; --hivis-t:#3b3210; --hivis-ink:#f6dc85;
-  --danger:#ff6f5e; --danger-t:#43201c; --warn:#f0aa3c; --warn-t:#3d2b10; --good:#5fca8d; --good-t:#173a27;
+  --danger:#ff6f5e; --danger-t:#43201c; --warn:#f0aa3c; --warn-t:#3d2b10; --good:#5fca8d; --good-t:#173a27; --on-accent:#0d1a20;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0d1a20; --surface:#14242c; --surface-2:#1a2d36; --sunk:#0f1e25;
@@ -38,7 +44,7 @@
   --know:#9c92f2; --protect:#d9a352; --plan:#56c487; --prepare:#ff8c42;
   --know-t:#262350; --protect-t:#3a2c14; --plan-t:#173a27; --prepare-t:#41230f;
   --hivis:#f2c94c; --hivis-t:#3b3210; --hivis-ink:#f6dc85;
-  --danger:#ff6f5e; --danger-t:#43201c; --warn:#f0aa3c; --warn-t:#3d2b10; --good:#5fca8d; --good-t:#173a27;
+  --danger:#ff6f5e; --danger-t:#43201c; --warn:#f0aa3c; --warn-t:#3d2b10; --good:#5fca8d; --good-t:#173a27; --on-accent:#0d1a20;
   color-scheme:dark}
 *{box-sizing:border-box}
 html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
@@ -109,7 +115,7 @@ svg text{font-family:var(--body)}
 .seg button{border:0;background:transparent;padding:6px 11px;cursor:pointer;font-size:13px;font-weight:500;color:var(--ink-2);border-right:1px solid var(--line)}
 .seg button:last-child{border-right:0}
 .seg button[aria-pressed="true"]{background:var(--lane,var(--ink));color:#fff}
-:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#fff}
+.seg button[aria-pressed="true"]{color:var(--on-accent)}
 .seg button:disabled{opacity:.45;cursor:not-allowed}
 input[type=range]{accent-color:var(--lane,var(--ink));width:100%}
 .sw{position:relative;width:42px;height:24px;flex:none}
@@ -315,9 +321,51 @@ table.t tr.bau td{color:var(--ink-2);font-style:italic}
   .top{position:static}
   .tour-vis{min-height:0}
 }
+/* v3.1 additions */
+.till{padding:8px 14px calc(8px + env(safe-area-inset-bottom,0px))}
+.tillrow{display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap}
+.tcell{min-width:96px}
+.tcell .lab{font-size:11.5px;color:var(--ink-2)}
+.tcell .val{font-family:var(--display);font-weight:700;font-size:23px;line-height:1.05}
+.tcell .meter,.tcell .mix{margin-top:3px;height:5px}
+.tcell.grow{flex:1;min-width:160px}
+.tcell.grow .why{margin-top:0}
+.tillrow #lockBtn{padding:10px 18px;font-size:16px}
+.tilltog{border:1px solid var(--line-2);background:var(--surface-2);border-radius:8px;padding:8px 10px;font-size:13px;cursor:pointer;color:var(--ink-2)}
+.tillmore{border-top:1px solid var(--line);margin-top:8px;padding-top:8px}
+.fcbox{border-top:1px solid var(--line);margin-top:10px;padding-top:10px}
+.fcbox .lab{font-size:12px;color:var(--ink-2);margin-bottom:2px}
+.fcbox .fc{flex-direction:row;flex-wrap:wrap;gap:2px 16px;font-size:14px}
+.knock{font-size:13px;color:var(--ink-2);margin-top:6px;padding:0 2px}
+.meter{position:relative}
+.meter .floor{position:absolute;top:0;bottom:0;width:2px;background:var(--ink)}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 0 6px var(--hivis-t)}}
+input[type=range].pulse{border-radius:999px;animation:pulse 1.6s ease-in-out infinite}
+details.history{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 14px;margin:6px 0 14px}
+details.history > summary{cursor:pointer;font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.03em;color:var(--ink-2)}
+details.history[open] > summary{margin-bottom:10px}
+.minihead{font-family:var(--display);font-weight:600;font-size:16px;margin:12px 0 6px;color:var(--ink-2)}
+.callout{margin-top:10px;background:var(--know-t);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--ink)}
+.score.better{border-color:var(--good);background:linear-gradient(var(--good-t),var(--good-t)) top/100% 5px no-repeat,var(--surface)}
+.score.worse{border-color:var(--danger);background:linear-gradient(var(--danger-t),var(--danger-t)) top/100% 5px no-repeat,var(--surface)}
+.score .verdict{display:inline-block;font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:1px 8px;border-radius:999px;margin-right:4px;background:var(--sunk);color:var(--ink-2)}
+.score.better .verdict{background:var(--good);color:var(--surface)}
+.score.worse .verdict{background:var(--danger);color:var(--surface)}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:1000px){.trio{grid-template-columns:minmax(0,1fr)}}
+.trio-card{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--surface-2);min-width:0}
+.trio-name{font-family:var(--display);font-size:19px}
+.nums3{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:6px;font-size:12px;color:var(--ink-2);margin-top:6px}
+.nums3 b{display:block;font-family:var(--mono);font-size:15px;color:var(--ink)}
+.nums3 span{display:block;font-size:11px;color:var(--ink-3)}
+table.t tr.cur td{background:var(--hivis-t)}
+.station.flag{border-color:var(--danger);color:var(--danger)}
+@media (max-height:820px) and (min-width:701px){.top{position:static}.mapcard{top:12px}}
+@media (max-width:700px){.tcell .val{font-size:19px}.tillrow #lockBtn{flex:1}.tcell.grow{order:9;flex-basis:100%}}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
-
+</head>
+<body>
 <header class="top">
   <div class="wrap">
     <div class="brand">
@@ -415,7 +463,7 @@ const UW = (() => {
   const ALIGN_ORDER = ["none", "cbd", "cbdsub", "all"];
   const LEVEE_BASE = 5.5, BRIDGE = 5.8, BRIDGE_RAISED = 7.2, MAJOR = 5.5, MODERATE = 4.5, MINOR = 3.0;
   const COST = { leveeUnit: h => 4 * h + 5 * h * h, retrofit: 1.25, spillwayPerLen: 6, basinUnit: 12, bridge: 20, route: 12, buyback: 0.4, raise: 0.15, retreat: 0.35, fillPerHomeM: 0.02, grantPerHome: 0.02, warning: [0, 3, 6, 10], regional: 2, consult: 2, wardens: 2, maintFrac: 0.08 };
-  const MONEY = { tranche: [50, 30, 30], ratesPerHome: 0.01, contribPerHome: 0.02, recoveryGrant: 10, councilShare: 0.05, councilShareCap: 20 };
+  const MONEY = { tranche: [50, 30, 30], ratesPerHome: 0.01, contribPerHome: [0.015, 0.02, 0.02], recoveryGrant: 10, councilShare: 0.05, councilShareCap: 20 };
   const WARN_REL = [0.35, 0.6, 0.75, 0.88];
   const WARN_NAME = ["Radio and word of mouth", "River gauges and SMS alerts", "Gauges, forecast model, alerts", "Full system: radar, model, door-knock teams"];
   const CLIM = { none: 0, low: 0.3, medium: 0.6, high: 1.1 }; // metres per century, from 2000
@@ -427,12 +475,15 @@ const UW = (() => {
   function leveeCapital(align, crest) { return align === "none" ? 0 : ALIGN[align].len * COST.leveeUnit(Math.max(0, crest - LEVEE_BASE)); }
   function basinReduction(L, units) { if (!units) return 0; const f = L <= 7 ? 0.2 : L >= 9 ? 0.05 : 0.2 - 0.075 * (L - 7); return units * f; }
   const dmgFrac = d => d <= 0 ? 0 : Math.min(0.75, 0.2 + 0.3 * d);
+  const MEM_FLOOR_DECAY = Math.pow(0.5, 1 / 25);
+  // community support: each period starts halfway between 70 and where the last period ended
+  const supportCarry = (prev, k) => k === 0 ? 70 : Math.round(70 + 0.5 * ((prev == null ? 70 : prev) - 70));
 
   // ---------- State ----------
   function initialState() {
     return { k: 0, align: "none", crest: 0, leveeCap: 0, spillway: false, basin: 0, bridge: false, route2: false, wardens: false, regional: false, code: false,
       rsBought: 0, rsRaised: 0, retreat: 0, grants: 0, hill: [], infill: [],
-      M: 30, A: 20, support: 70, unspent: 0, spent: 0, spentByLane: [0, 0, 0, 0], dmg: 0, nbr: 0, lives: 0, lam: 0,
+      M: 30, A: 20, MF: 0, support: 70, unspent: 0, spent: 0, spentByLane: [0, 0, 0, 0], dmg: 0, nbr: 0, lives: 0, lam: 0,
       record: null, last: null, events: null, maintDeferred: false };
   }
   // Cohorts of homes for a state + this round's plan fragments
@@ -463,13 +514,13 @@ const UW = (() => {
     const maint = COST.maintFrac * S.leveeCap;
     const shareDmg = S.last ? Math.min(MONEY.councilShareCap, MONEY.councilShare * S.last.dmg) : 0;
     const H = clamp(HOUSING[k] * (1.2 - S.M / 100), 0.4, 2);
-    return { k, year: ROUND_YEAR[k], record, fit1: fit.q(0.01), band: bootstrapQ(record, 0.01), window, H,
+    return { k, year: ROUND_YEAR[k], record, fit1: fit.q(0.01), band: bootstrapQ(record, 0.01), window, H, supportStart: supportCarry(S.support, k),
       money: { tranche: MONEY.tranche[k], rates: homes * MONEY.ratesPerHome, carried: S.unspent, grant: window ? MONEY.recoveryGrant : 0, maint, share: shareDmg },
       horizons: HORIZONS[k], events: S.events || round1Events() };
   }
   function round1Events() {
     return [
-      { id: "target", type: "info", icon: "home", title: "Council sets a housing target", text: "Up to 900 new homes on Hillside over the coming decades. Developers pay $20k per home approved." },
+      { id: "target", type: "info", icon: "home", title: "Council sets a housing target", text: "Up to 900 new homes on Hillside over the coming decades. Developers pay $15k per home approved now, $20k in later rounds as land values rise." },
       { id: "study", type: "info", icon: "chart", title: "Flood study: 1-in-100 flood at 7.1 m", text: "Based on 60 years of gauge record. The uncertainty band runs from about 6.2 to 7.9 m." },
       { id: "climate", type: "info", icon: "climate", title: "Climate change projections released", text: "Flood levels are projected to rise this century. How much depends on global emissions." },
     ];
@@ -533,7 +584,7 @@ const UW = (() => {
     if (d.wardens && !S.wardens) add("prepare", "Flood wardens", COST.wardens);
     if (d.consult) add("prepare", "Community consultation", COST.consult);
     // money in
-    const contribRate = MONEY.contribPerHome * (d.code ? 0.75 : 1);
+    const contribRate = MONEY.contribPerHome[k] * (d.code ? 0.75 : 1);
     const contrib = (Math.max(0, newHill) + infillN) * contribRate;
     const m = ctx.money;
     let claimCost = 0;
@@ -600,10 +651,13 @@ const UW = (() => {
     const lives = poissonInv(lam, u);
     const fa = warned && dmg === 0;
     // dynamics (after the flood)
-    dyn.M *= 0.93; dyn.A = Math.min(100, dyn.A * 0.93 + P.edu * 0.9);
+    // memory: fast part halves ~every 10 years; disasters (lives lost, levee overtopped) leave a lasting floor that halves every 25 years
+    dyn.F = (dyn.F || 0) * MEM_FLOOR_DECAY;
+    dyn.M = Math.max(dyn.M * 0.93, dyn.F); dyn.A = Math.min(100, dyn.A * 0.93 + P.edu * 0.9);
     if (dmg > 20) { dyn.M = Math.min(100, dyn.M + 15 + dmg / 15); dyn.A = Math.min(100, dyn.A + 15); }
     if (lives > 0) dyn.M = Math.min(100, dyn.M + 20);
-    return { L, Le, dmg, nbr, lam, lives, over, warned, fa, flooded, zoneDepth, M: dyn.M, A: dyn.A };
+    if (lives > 0 || over) dyn.F = Math.max(dyn.F, dyn.M);
+    return { L, Le, dmg, nbr, lam, lives, over, warned, fa, flooded, zoneDepth, M: dyn.M, A: dyn.A, MF: dyn.F };
   }
   function simSegment(P, fut, k, dyn0) {
     const [a, b] = SEG[k]; const dyn = { ...dyn0 }; const years = [];
@@ -623,7 +677,8 @@ const UW = (() => {
     const f = [];
     const add = (label, v, note) => f.push({ label, v: Math.round(v), note });
     const len = ALIGN[P.align].len;
-    add("Starting point", 70, "A typical town's trust in council");
+    const st = ctx.supportStart == null ? 70 : ctx.supportStart;
+    f.push({ label: ctx.k ? "Carried over" : "Starting point", v: st, base: true, note: ctx.k ? "Halfway between 70 and where support ended last period" : "A typical town's trust in council" });
     if (P.align !== "none") add("Levee on the skyline", -2 * Math.max(0, P.crest - 6.5) * len * (seg.quiet ? 2 : 1), seg.quiet ? "Doubled: no major flood for 20 years" : "Tall walls block views and river access");
     add("Flood losses", -Math.min(20, seg.dmg / 40), "Damage in town this period");
     add("Lives lost", -Math.min(25, 4 * seg.lives), "Each life lost costs 4 points");
@@ -670,12 +725,12 @@ const UW = (() => {
 
   // ---------- Advance a round ----------
   function advance(S, P, ctx, fut) {
-    const seg = simSegment(P, fut, ctx.k, { M: S.M, A: S.A });
+    const seg = simSegment(P, fut, ctx.k, { M: S.M, A: S.A, F: S.MF || 0 });
     const sup = supportFactors(P, seg, ctx);
     const S2 = { ...P.next };
     S2.k = ctx.k + 1; S2.align = P.align; S2.crest = P.crest; S2.leveeCap = P.leveeCap; S2.spillway = P.spillway; S2.basin = P.basin; S2.bridge = P.bridge; S2.route2 = P.route2; S2.wardens = P.wardens; S2.code = P.code; S2.regional = P.d.regional;
     S2.lastWarn = P.warn; S2.lastTrigger = P.trigger;
-    S2.M = seg.dyn.M; S2.A = seg.dyn.A; S2.support = sup.total;
+    S2.M = seg.dyn.M; S2.A = seg.dyn.A; S2.MF = seg.dyn.F || 0; S2.support = sup.total;
     S2.unspent = Math.max(0, P.available - P.spend); S2.spent = S.spent + P.spend + P.claimCost + (P.maintDeferred ? 0 : ctx.money.maint);
     S2.spentByLane = [S.spentByLane[0] + P.cost.know, S.spentByLane[1] + P.cost.protect, S.spentByLane[2] + P.cost.plan, S.spentByLane[3] + P.cost.prepare];
     S2.dmg = S.dmg + seg.dmg; S2.nbr = S.nbr + seg.nbr; S2.lives = S.lives + seg.lives; S2.lam = S.lam + seg.lam;
@@ -712,12 +767,12 @@ const UW = (() => {
   function evaluatePathway(plans, ctxs, ens) {
     const out = { dmg: [], nbr: [], lam: [], lives: [], support: [], overtopped: 0, cum: [] };
     for (const f of ens) {
-      let dyn = { M: 30, A: 20 }, dmg = 0, nbr = 0, lam = 0, lives = 0, anyOver = false, sup = 70; const cum = [];
+      let dyn = { M: 30, A: 20, F: 0 }, dmg = 0, nbr = 0, lam = 0, lives = 0, anyOver = false, sup = 70; const cum = [];
       for (let k = 0; k < plans.length; k++) {
         const seg = simSegment(plans[k], f, k, dyn); dyn = seg.dyn;
         for (const y of seg.years) { dmg += y.dmg; nbr += y.nbr; cum.push(dmg + nbr); }
         lam += seg.lam; lives += seg.lives; if (seg.nOver) anyOver = true;
-        if (k === plans.length - 1) sup = supportFactors(plans[k], seg, ctxs[k]).total;
+        sup = supportFactors(plans[k], seg, { ...ctxs[k], supportStart: supportCarry(sup, k) }).total;
       }
       out.dmg.push(dmg + nbr); out.nbr.push(nbr); out.lam.push(lam); out.lives.push(lives); out.support.push(sup); if (anyOver) out.overtopped++; out.cum.push(cum);
     }
@@ -728,19 +783,19 @@ const UW = (() => {
   // Prospects for the current plan over the rest of the century
   function prospects(P, S, ens) {
     let dmg = 0, lam = 0, over = 0;
-    for (const f of ens) { let dyn = { M: S.M, A: S.A }, anyO = false; for (let k = P.k; k < 3; k++) { const seg = simSegment(P, f, k, dyn); dyn = seg.dyn; dmg += seg.dmg + seg.nbr; lam += seg.lam; if (seg.nOver) anyO = true; } if (anyO) over++; }
+    for (const f of ens) { let dyn = { M: S.M, A: S.A, F: S.MF || 0 }, anyO = false; for (let k = P.k; k < 3; k++) { const seg = simSegment(P, f, k, dyn); dyn = seg.dyn; dmg += seg.dmg + seg.nbr; lam += seg.lam; if (seg.nOver) anyO = true; } if (anyO) over++; }
     return { dmg: dmg / ens.length, pll: lam / ens.length, pOver: over / ens.length };
   }
   // Quick what-if for a single flood level (no randomness)
   function whatIf(P, L, S) {
-    const dyn = { M: S ? S.M : 30, A: S ? S.A : 20 };
+    const dyn = { M: S ? S.M : 30, A: S ? S.A : 20, F: S ? (S.MF || 0) : 0 };
     const yw = simYear(P, L, 0.0, 0.5, { ...dyn }); // warning succeeds
     const yn = simYear(P, L, 0.999, 0.5, { ...dyn }); // warning fails
     return { ...yw, lamNoWarn: yn.lam };
   }
 
   return { mulberry32, clamp, HYD, N_REP, N_YR, YEAR0, SEG, ROUND_YEAR, ZONES, ALIGN, ALIGN_ORDER, LEVEE_BASE, BRIDGE, BRIDGE_RAISED, MAJOR, MODERATE, MINOR, COST, MONEY, WARN_REL, WARN_NAME, CLIM, CLIM_NAME, REVISION, HORIZONS,
-    buildEnsemble, buildRecord, trueQ, gumbelFit, bootstrapQ, climateUplift, leveeCapital, basinReduction, initialState, cohorts, hillBuilt, infillBuilt, homesTotal, peopleHoused,
+    supportCarry, MEM_FLOOR_DECAY, buildEnsemble, buildRecord, trueQ, gumbelFit, bootstrapQ, climateUplift, leveeCapital, basinReduction, initialState, cohorts, hillBuilt, infillBuilt, homesTotal, peopleHoused,
     contextFor, defaultDecisions, buildPlan, validate, simYear, simSegment, supportFactors, heraldEvents, advance, bauDecisions, BAU_H, replay, evaluatePathway, prospects, whatIf };
 })();
 
@@ -956,7 +1011,8 @@ function centurySVG(years, segs, opts = {}) {
     if (g.a - off > 0) s += `<line x1="${xa}" y1="${T}" x2="${xa}" y2="${H - B}" stroke="var(--ink-3)" stroke-dasharray="1 3"/>`; }
   if (opts.truth) { s += `<polyline points="${opts.truth.map((v, i) => `${(X(i - off) + bw / 2).toFixed(1)},${Y(v).toFixed(1)}`).join(" ")}" fill="none" stroke="var(--danger)" stroke-width="2" stroke-dasharray="2 3"/>`; }
   const y0 = opts.year0 || UW.YEAR0;
-  for (let i = 0; i <= n; i += (n > 50 ? 10 : 5)) s += `<text x="${X(i)}" y="${H - 6}" text-anchor="${i === 0 ? "start" : i + (n > 50 ? 10 : 5) > n ? "end" : "middle"}" font-size="10.5" fill="var(--ink-3)" font-family="var(--mono)">${y0 + off + i}</text>`;
+  const tk = opts.tick || (n > 50 ? 10 : 5);
+  for (let i = 0; i <= n; i += tk) s += `<text x="${X(i)}" y="${H - 6}" text-anchor="${i === 0 ? "start" : i + tk > n ? "end" : "middle"}" font-size="10.5" fill="var(--ink-3)" font-family="var(--mono)">${y0 + off + i}</text>`;
   s += `</svg>`; return s;
 }
 function histSVG(a, b, liveA, liveB, opts = {}) {
@@ -974,8 +1030,8 @@ function histSVG(a, b, liveA, liveB, opts = {}) {
   s += `</svg>`; return s;
 }
 function supportHTML(sup) {
-  const mx = Math.max(16, ...sup.factors.filter(f => f.label !== "Starting point").map(f => Math.abs(f.v)));
-  return `<div class="supp">` + sup.factors.map(f => { if (f.label === "Starting point") return `<div class="r"><div>${esc(f.label)}<div class="faint small">${esc(f.note)}</div></div><div></div><div class="n">${f.v}</div></div>`;
+  const mx = Math.max(16, ...sup.factors.filter(f => !f.base).map(f => Math.abs(f.v)));
+  return `<div class="supp">` + sup.factors.map(f => { if (f.base) return `<div class="r"><div>${esc(f.label)}<div class="faint small">${esc(f.note)}</div></div><div></div><div class="n">${f.v}</div></div>`;
     const w = Math.min(50, Math.abs(f.v) / mx * 50); const pos = f.v >= 0;
     return `<div class="r"><div>${esc(f.label)}<div class="faint small">${esc(f.note)}</div></div><div class="bar"><i style="left:${pos ? 50 : 50 - w}%;width:${w}%;background:${pos ? "var(--good)" : "var(--danger)"}"></i><i style="left:50%;width:1px;background:var(--ink-3)"></i></div><div class="n ${pos ? "better" : "worse"}">${pos ? "+" : ""}${f.v}</div></div>`; }).join("") +
     `<div class="r" style="font-weight:600"><div>Community support</div><div></div><div class="n">${sup.total}</div></div></div>`;
@@ -1015,21 +1071,35 @@ function lanesPreview() {
   return `<div class="grid2">` + Object.entries(LANES).map(([k, l]) => `<div class="lane" style="--lane:${l.col};--lane-t:${l.tint}"><header><h3>${l.name}</h3><span>${l.sub}</span></header><ul class="small" style="margin:0;padding-left:18px">${ex[k].map(x => `<li>${x}</li>`).join("")}</ul></div>`).join("") + `</div>`;
 }
 function mockControls() {
-  const row = (lane, lab, val, tag, cls = "cost") => `<div class="ctrl" style="--lane:${LANES[lane].col};--lane-t:${LANES[lane].tint}"><div class="lab">${lab}</div><span class="tag ${cls}">${tag}</span><div class="val">${val}</div></div>`;
+  const ctl = (lane, lab, tagId, tagCls, inId, min, max, step, val, extra = "") => `<div class="ctrl" style="--lane:var(--${lane});--lane-t:var(--${lane}-t)"><div class="lab">${lab}</div><span class="tag ${tagCls}" id="${tagId}"></span><div class="input"><input type="range" id="${inId}" min="${min}" max="${max}" step="${step}" value="${val}" aria-label="${lab}" style="--lane:var(--${lane})"><b class="num" id="${inId}s"></b></div><div class="val" id="${inId}v"></div>${extra}</div>`;
   return `<div class="lane" style="--lane:var(--protect);--lane-t:var(--protect-t)"><header><h3>Protect</h3><span>Infrastructure</span></header>
-    ${row("protect", "Levee alignment", "Centre + suburbs · protects 2,850 people", "$38M")}
-    <div class="ctrl" style="--lane:var(--protect)"><div class="lab">Levee freeboard above the design flood</div><span class="tag">crest 7.9 m</span><div class="input"><input type="range" min="0" max="1.5" step="0.1" value="0.8" aria-label="Example slider"></div><div class="val">+0.8 m. Every 10 cm adds cost, and a taller wall sits worse with the community.</div></div></div>
+      <div class="ctrl" style="--lane:var(--protect);--lane-t:var(--protect-t)"><div class="lab">Levee line</div><span class="tag cost" id="mkLc"></span><div class="val">Centre + suburbs · protects 2,850 people</div></div>
+      ${ctl("protect", "Levee height vs design flood", "mkCr", "", "mkL", -1, 1.5, 0.1, 0.3)}</div>
     <div class="lane" style="--lane:var(--plan);--lane-t:var(--plan-t);margin-top:12px"><header><h3>Plan</h3><span>Land use</span></header>
-    ${row("plan", "New homes on Hillside", "600 homes · developers pay $12M", "+$12M", "plus")}
-    ${row("plan", "Floor freeboard for new homes", "+0.5 m · floors at 7.6 m · council pays for the fill", "$7M")}</div>`;
+      ${ctl("plan", "Homes on Hillside", "mkHt", "plus", "mkH", 0, 900, 50, 600)}
+      ${ctl("plan", "Floor freeboard for new homes", "mkFt", "cost", "mkF", 0, 1.5, 0.1, 0.5)}</div>`;
+}
+function mockAfter() {
+  const DFL = Math.round(FIT0 * 10) / 10;
+  const go = () => {
+    const lf = +$("mkL").value, n = +$("mkH").value, hf = +$("mkF").value;
+    const crest = Math.round((DFL + lf) * 10) / 10, lc = UW.leveeCapital("cbdsub", crest), step = UW.leveeCapital("cbdsub", crest + 0.1) - lc;
+    $("mkLc").textContent = fmtM(lc); $("mkCr").textContent = `crest ${crest.toFixed(1)} m`; $("mkLs").textContent = `${lf < 0 ? "−" : "+"}${Math.abs(lf).toFixed(1)} m`;
+    $("mkLv").textContent = lf < 0 ? `Crest ${crest.toFixed(1)} m, below the ${DFL.toFixed(1)} m design flood. Cheaper, but floods above the crest pour in.` : `Crest ${crest.toFixed(1)} m. The next 10 cm would cost about ${fmtM(step)} more.`;
+    const contrib = n * UW.MONEY.contribPerHome[0];
+    $("mkHt").textContent = `+${fmtM(contrib)}`; $("mkHs").textContent = fmt(n); $("mkHv").textContent = `${fmt(n)} homes · developers pay ${fmtM(contrib)} this round`;
+    const floor = Math.max(7.0, Math.round((DFL + hf) * 10) / 10), fill = n * (floor - 7.0) * UW.COST.fillPerHomeM;
+    $("mkFt").textContent = fill > 0.05 ? fmtM(fill) : "$0"; $("mkFs").textContent = `+${hf.toFixed(1)} m`; $("mkFv").textContent = `Floors at ${floor.toFixed(1)} m · council pays ${fmtM(fill)} for the fill`;
+  };
+  ["mkL", "mkH", "mkF"].forEach(id => $(id).oninput = go); go();
 }
 function waterfallHTML() {
-  const items = [["Council tranche", 50, "var(--ink-2)"], ["Rates from 1,500 homes", 15, "var(--ink-2)"], ["Developer contributions (900 homes)", 18, "var(--plan)"]];
-  const tot = items.reduce((a, b) => a + b[1], 0), approve = 68; let acc = 0; const sc = 100 / 90;
-  return `<div style="display:flex;flex-direction:column;gap:8px;font-size:14px">` + items.map(([l, v, c]) => { const left = acc * sc; acc += v; return `<div><div class="row" style="justify-content:space-between"><span>${l}</span><span class="num">+$${v}M</span></div><div style="position:relative;height:16px;background:var(--sunk);border-radius:4px"><i style="position:absolute;left:${left}%;width:${v * sc}%;top:0;bottom:0;background:${c};border-radius:4px"></i></div></div>`; }).join("") +
-    `<div><div class="row" style="justify-content:space-between;font-weight:600"><span>Money available in Round 1</span><span class="num">$${tot}M</span></div><div style="position:relative;height:22px;background:var(--sunk);border-radius:4px"><i style="position:absolute;left:0;width:${tot * sc}%;top:0;bottom:0;background:var(--ink);border-radius:4px"></i></div></div>
-    <div><div class="row" style="justify-content:space-between;font-weight:600;color:var(--hivis-ink)"><span>Council will approve (about 82%)</span><span class="num">$${approve}M</span></div><div style="position:relative;height:22px;background:var(--sunk);border-radius:4px"><i style="position:absolute;left:0;width:${approve * sc}%;top:0;bottom:0;background:var(--hivis);border-radius:4px"></i></div></div>
-    <p class="small muted">Later rounds add $30M each, plus rates, savings, recovery grants after a disaster, and minus levee maintenance and any compensation you owe.</p></div>`;
+  const rate = UW.MONEY.contribPerHome[0], items = [["Council tranche", 50, "var(--ink-2)"], ["Rates from 1,500 homes", 15, "var(--ink-2)"], [`Developers, 900 Hillside homes at $${Math.round(rate * 1000)}k`, 900 * rate, "var(--plan)"]];
+  const tot = items.reduce((a, b) => a + b[1], 0), approve = Math.round(tot * 0.82); let acc = 0; const sc = 100 / 90, fw = v => `$${v % 1 ? v.toFixed(1) : v}M`;
+  return `<div style="display:flex;flex-direction:column;gap:8px;font-size:14px">` + items.map(([l, v, c]) => { const left = acc * sc; acc += v; return `<div><div class="row" style="justify-content:space-between"><span>${l}</span><span class="num">+${fw(v)}</span></div><div style="position:relative;height:16px;background:var(--sunk);border-radius:4px"><i style="position:absolute;left:${left}%;width:${v * sc}%;top:0;bottom:0;background:${c};border-radius:4px"></i></div></div>`; }).join("") +
+    `<div><div class="row" style="justify-content:space-between;font-weight:600"><span>Money available in Round 1</span><span class="num">${fw(tot)}</span></div><div style="position:relative;height:22px;background:var(--sunk);border-radius:4px"><i style="position:absolute;left:0;width:${tot * sc}%;top:0;bottom:0;background:var(--ink);border-radius:4px"></i></div></div>
+    <div><div class="row" style="justify-content:space-between;font-weight:600;color:var(--hivis-ink)"><span>Council will approve (about 82%)</span><span class="num">${fmtM(approve)}</span></div><div style="position:relative;height:22px;background:var(--sunk);border-radius:4px"><i style="position:absolute;left:0;width:${approve * sc}%;top:0;bottom:0;background:var(--hivis);border-radius:4px"></i></div></div>
+    <p class="small muted">Later rounds add $30M each, plus rates, savings, $20k per new home, and recovery grants after a disaster. Levee maintenance and any compensation you owe come out first.</p></div>`;
 }
 function approvalHTML() {
   const bar = (lab, pct, col, note) => `<div><div class="row" style="justify-content:space-between"><span>${lab}</span><span class="num">${pct}%</span></div><div class="meter" style="height:14px"><i style="width:${pct}%;background:${col}"></i></div><div class="small faint">${note}</div></div>`;
@@ -1046,7 +1116,7 @@ function timelineSVG() {
   [[2026, 2059], [2059, 2092], [2092, 2126]].forEach(([a, b], i) => { s += `<rect x="${X(a) + 14}" y="80" width="${X(b) - X(a) - 28}" height="20" rx="10" fill="var(--water)" opacity=".85"/><text x="${(X(a) + X(b)) / 2}" y="94" text-anchor="middle" font-size="12" fill="#fff" font-weight="600">reveal ${a}–${b - 1}</text>`; });
   [2026, 2059, 2092].forEach((y, i) => { s += `<circle cx="${X(y)}" cy="90" r="13" fill="var(--hivis)" stroke="var(--ink)" stroke-width="2"/><text x="${X(y)}" y="95" text-anchor="middle" font-size="13" font-weight="700" fill="#1d1600">${i + 1}</text><text x="${X(y)}" y="60" text-anchor="middle" font-size="13" font-weight="700" fill="var(--ink)" font-family="var(--display)">ROUND ${i + 1}</text><text x="${X(y)}" y="44" text-anchor="middle" font-size="12" fill="var(--ink-2)" font-family="var(--mono)">${y}</text>`; if (i) s += `<text x="${X(y)}" y="128" text-anchor="middle" font-size="11.5" fill="var(--ink-2)">Herald + decisions</text>`; });
   s += `<rect x="${X(2126) - 28}" y="76" width="56" height="28" rx="6" fill="var(--ink)"/><text x="${X(2126)}" y="95" text-anchor="middle" font-size="12" font-weight="700" fill="var(--bg)">results</text>`;
-  s += `<text x="${X(2126)}" y="128" text-anchor="middle" font-size="11.5" fill="var(--ink-2)">300 futures</text></svg>`; return s;
+  s += `<text x="${X(2126) + 26}" y="128" text-anchor="end" font-size="11.5" fill="var(--ink-2)">300 futures</text></svg>`; return s;
 }
 function memorySVG() {
   const rp = UW.replay({ F: 142 }, REC0, ENS, { bau: true });
@@ -1073,31 +1143,30 @@ function scoresSample() {
 const TOUR_TOWN = [
   { eye: "Meet the town", title: "Welcome to Underwaterville", lead: "A river town of about 3,350 people in temperate Victoria. For the next hundred years, 2026 to 2126, its flood risk is yours to manage.",
     facts: [["1,500", "homes today"], ["3,350", "people"], ["1", "bridge out"], ["900", "homes council wants built"]], vis: () => mapSVG({}) },
-  { eye: "The river", title: "The river and its gauge", lead: "Everything is measured on the town gauge, in metres. The Bureau of Meteorology classes floods by gauge height.",
+  { eye: "The river", title: "The river and its gauge", lead: "Everything is measured on the town gauge, in metres. The Bureau of Meteorology classes floods by gauge height. <b>Drag the slider under the picture to raise the river.</b>",
     bullets: ["<b>Minor</b> flood at 3.0 m: low roads close.", "<b>Moderate</b> at 4.5 m: some homes threatened, evacuations may start.", "<b>Major</b> at 5.5 m: widespread flooding, homes flooded."],
-    vis: () => `<div id="t2x">${xsecSVG({ level: 3 })}</div><div class="ctl-inline"><label for="t2lvl">River level</label><input id="t2lvl" type="range" min="2" max="10.5" step="0.1" value="3"><b id="t2out" class="num">3.0 m</b></div>`,
-    after: () => { const r = $("t2lvl"); r.oninput = () => { $("t2x").innerHTML = xsecSVG({ level: +r.value }); $("t2out").textContent = m1(+r.value); }; } },
-  { eye: "Zone 1", title: "Riverside floods first", lead: "The oldest part of town sits on the river flat. Its floors are at 5.0 m, so it floods in most major floods.",
-    bullets: ["200 homes, about 500 people.", "Always outside any levee you build, and a levee across the river makes its floods a little deeper.", "You can buy homes back or raise them on stilts. Both cost money and both upset people."],
-    vis: () => mapSVG({ highlight: ["riverside"] }) },
-  { eye: "Zones 2 and 3", title: "The town centre and the suburbs", lead: "Most of the town's people and value. Floors at 5.8 m in the centre and 6.3 m in the suburbs.",
-    bullets: ["Town centre: 400 shops and homes, the highest value per property.", "Suburbs: 900 homes, 2,250 people.", "A levee can protect them, up to its crest. Above the crest, water pours in and is trapped."],
-    vis: () => mapSVG({ highlight: ["cbd", "suburbs"], align: "cbdsub", crest: 7.4 }) },
-  { eye: "Zone 4", title: "Hillside, where the town wants to grow", lead: "Council has a target of 900 new homes on Hillside. Developers pay $20,000 for every home you approve.",
+    vis: () => `<div id="t2x">${xsecSVG({ level: 3 })}</div><div class="ctl-inline"><label for="t2lvl">River level</label><input id="t2lvl" class="pulse" type="range" min="2" max="10.5" step="0.1" value="3"><b id="t2out" class="num">3.0 m</b></div>`,
+    after: () => { const r = $("t2lvl"); r.oninput = () => { r.classList.remove("pulse"); $("t2x").innerHTML = xsecSVG({ level: +r.value }); $("t2out").textContent = m1(+r.value); }; } },
+  { eye: "Zones 1 to 3", title: "The old town sits on the floodplain", lead: "Floors are at 5.0 m in Riverside, 5.8 m in the town centre and 6.3 m in the suburbs.",
+    bullets: ["<b>Riverside</b> (200 homes) floods first. It sits between the river and any levee line, so no levee can protect it. A levee also pushes water back onto Riverside, making its floods slightly deeper.",
+      "Council can <b>buy Riverside homes back</b> (demolish them and return the land to parkland) or <b>raise them</b> on stilts. Both cost money and upset residents. Buybacks also mean fewer homes, fewer people housed and less rates income.",
+      "The <b>town centre</b> (400 shops and homes) has the highest value per property. The <b>suburbs</b> (900 homes) hold most of the people.",
+      "A levee can protect the centre and suburbs, up to its crest. Above the crest, water pours in and is trapped."],
+    vis: () => mapSVG({ highlight: ["riverside", "cbd", "suburbs"], align: "cbdsub", crest: 7.4 }) },
+  { eye: "Zone 4", title: "Hillside, where the town wants to grow", lead: "Council has a target of 900 new homes on Hillside. Developers pay $15,000 for every home you approve in Round 1, and $20,000 in later rounds as land values rise.",
     bullets: ["New floors are set at your design flood plus freeboard. Higher floors cost council for the fill.", "Hillside is only behind a levee if you build the long, expensive one around the whole town.", "More homes means more rates every round, and more people in the way."],
     vis: () => mapSVG({ highlight: ["hillside"], hill: 900, hillNew: 900 }) },
-  { eye: "Getting out", title: "One bridge, one road out", lead: "The only road out crosses the river. The bridge deck is at 5.8 m. Above that, the road is cut and evacuations stall.",
-    bullets: ["Warnings only save lives if people can act on them.", "You can raise the bridge or build a second road out through Hillside."],
-    vis: () => mapSVG({ level: 6.4, depth: { riverside: 1.4 } }) },
+  { eye: "Beyond the levee", title: "One road out, and a neighbour downstream", lead: "The only road out crosses the river on a bridge with its deck at 5.8 m. Downstream is our neighbour, Soggyton.",
+    bullets: ["Above 5.8 m the road is cut and evacuations stall. Warnings only save lives if people can act on them, so you can raise the bridge or build a second road out.",
+      "A levee stops water spreading across the floodplain, so more of it heads downstream. The longer and taller your levee, the worse Soggyton floods.",
+      "Soggyton's damage counts in your damage score, and big losses bring a compensation claim against your council."],
+    vis: () => mapSVG({ highlight: ["soggyton"], align: "all", crest: 8.6, hill: 600, nbr: 1, level: 8.0, depth: { riverside: 3.1 } }) },
   { eye: "What we know", title: "Sixty years of record", lead: "The flood study fits a curve to 60 years of annual peaks and estimates the 1-in-100 flood at 7.1 m. The uncertainty band runs from about 6.2 to 7.9 m.",
     bullets: ["Sixty years is a short sample of a hundred-year flood.", "Remember Lismore: the record is not the risk.", "Each round, the years you have lived through are added to the record and the estimate is redone."],
     vis: () => recordSVG(REC0, FIT0, BAND0) },
   { eye: "What we don't know", title: "Climate change projections", lead: "Flood levels are projected to rise this century. How much depends on global emissions, and nobody knows which path the world will take.",
     bullets: ["You choose a projection (low, medium or high emissions) and a year to plan for. Together they add metres to your design flood.", "The projections are revised as the science improves.", "Your town is then tested against 300 possible climate futures, from mild to severe."],
     vis: () => climateSVG(0) },
-  { eye: "Downstream", title: "Soggyton, our neighbour", lead: "A levee stops water spreading across the floodplain, so more of it heads downstream. The longer and taller your levee, the worse Soggyton floods.",
-    bullets: ["Soggyton's damage counts in your damage score.", "Big Soggyton losses lead to a compensation claim against your council."],
-    vis: () => mapSVG({ highlight: ["soggyton"], align: "all", crest: 8.6, hill: 600, nbr: 1, level: 8.0, depth: { riverside: 3.1 } }) },
   { eye: "Try it", title: "What floods at...?", lead: "Drag the river up. Try a levee, a taller crest, and homes on Hillside. Watch what floods, what it costs, and who is caught.",
     vis: () => `<div id="sbx"></div><div class="ctl-inline"><label for="sbL">River</label><input id="sbL" type="range" min="2" max="10.5" step="0.1" value="6.5"><b id="sbLo" class="num">6.5 m</b></div>
       <div class="ctl-inline"><label>Levee</label><span class="seg" id="sbA" style="--lane:var(--protect)">${["none", "cbd", "cbdsub", "all"].map(a => `<button type="button" data-v="${a}" aria-pressed="${a === "cbdsub"}">${UW.ALIGN[a].label}</button>`).join("")}</span></div>
@@ -1110,20 +1179,19 @@ const TOUR_TOWN = [
 const TOUR_HOW = [
   { eye: "Your job", title: "You are the flood manager", lead: "One role, four kinds of decision. You can't afford everything, so you'll have to choose between building things and changing how the town lives with the river.",
     vis: lanesPreview },
-  { eye: "Decisions", title: "Every choice has a price", lead: "Each control shows what it costs this round. Some bring money in. Built things stay built: levees can go up but not down, and homes can't be unbuilt.",
-    bullets: ["Freeboard costs money, both on the levee and on new floors.", "Tags show what each choice costs this round. Solid green tags with a + bring money in."], vis: mockControls },
-  { eye: "Money", title: "Where the money comes from", lead: "Each round you get a council tranche plus rates from every home. Approving homes brings developer contributions now, and more rates later.", vis: waterfallHTML },
-  { eye: "Politics", title: "Council has to agree", lead: "You can only spend what council will approve. That depends on community support and on how recently the town flooded.", bullets: ["After a disaster, council says yes to almost anything.", "After decades of quiet, the same plan looks like waste."], vis: approvalHTML },
-  { eye: "Time", title: "Three rounds, one century", lead: "You make decisions in 2026, 2059 and 2092. After each round, the next 33 years are revealed one year at a time.", bullets: ["Everyone in class lives through the same river, chosen by the future number on the board.", "Each reveal changes what you know, what you can afford, and what people will accept."], vis: timelineSVG },
-  { eye: "Reacting", title: "The Herald", lead: "At the start of each round, the town paper reports what happened. Some stories need a decision before you can lock in.",
-    bullets: ["Yellow stories need a decision.", "What appears depends on your choices and on the river: a levee that holds draws developers, a quiet river breeds complacency, a disaster opens a window to act."], vis: heraldSample },
+  { eye: "Decisions", title: "Every choice has a price", lead: "Each control shows what it costs this round. Try the sliders. Built things stay built: levees can go up but not down, and homes can't be unbuilt.",
+    bullets: ["Freeboard costs money, both on the levee and on new floors.", "Tags show what each choice costs this round. Solid green tags with a + bring money in."], vis: mockControls, after: mockAfter },
+  { eye: "Money and politics", title: "Money, and a council that has to agree", lead: "Each round you get a council tranche plus rates from every home, and developers pay for new homes. But you can only spend what council will approve.",
+    bullets: ["Council approval depends on community support and on how recently the town flooded.", "After a disaster, council says yes to almost anything. After decades of quiet, the same plan looks like waste."],
+    vis: () => `${waterfallHTML()}<div style="border-top:1px solid var(--line);margin-top:14px;padding-top:14px">${approvalHTML()}</div>` },
+  { eye: "Time", title: "Three rounds, one century", lead: "You make decisions in 2026, 2059 and 2092. After each round, the next 33 years are revealed one year at a time. Then the town paper, the Herald, reports what happened.",
+    bullets: ["Everyone in class lives through the same river, chosen by the future number on the board.", "Yellow Herald stories need a decision before you can lock in. What appears depends on your choices and on the river.", "<b>In class:</b> lock in, paste your code where the facilitator asks, enter the future number, then watch the years roll by."],
+    vis: () => `${timelineSVG()}<div style="margin-top:12px">${heraldSample()}</div>` },
   { eye: "People", title: "People forget", lead: "After a damaging flood, flood memory jumps. Then it fades, halving about every ten years.",
-    bullets: ["Fresh memory: council approves more, people evacuate when warned, housing pressure eases.", "Faded memory: the opposite. Education campaigns build awareness that also fades unless you keep paying."], vis: memorySVG },
+    bullets: ["Floods where lives are lost or the levee is overtopped leave a lasting memory that halves only every 25 years, about a generation.", "Fresh memory: council approves more, people evacuate when warned, housing pressure eases. Faded memory: the opposite.", "Community support carries over too: each round starts halfway between 70 and where it ended last time."],
+    vis: memorySVG },
   { eye: "Scoring", title: "Five scores, no single winner", lead: "Your pathway is scored on cost, damage, lives lost, people housed and community support, and compared with a business-as-usual town.",
-    bullets: ["Damage and lives lost are averaged over 300 climate futures, so luck in the live future doesn't decide the result.", "Strategies that win one score usually lose another. That's the point."], vis: scoresSample },
-  { eye: "Getting started", title: "In class, or on your own", lead: "Open the Play tab and choose a mode.",
-    bullets: ["<b>In class:</b> enter your group name. Lock in each round, paste your code where the facilitator asks, then enter the future number from the board and reveal.", "<b>Solo:</b> the computer picks a secret future. Play straight through.", "Your game saves in this browser. If the page reloads, you'll be back where you were."],
-    vis: () => `<div class="grid2"><div class="modecard"><h3>In class</h3><ol class="small" style="margin:0;padding-left:18px"><li>Group name</li><li>Round 1 decisions</li><li>Lock in, paste code</li><li>Future number from the board</li><li>Reveal, then Round 2</li></ol></div><div class="modecard"><h3>Solo</h3><ol class="small" style="margin:0;padding-left:18px"><li>Your name</li><li>Round 1 decisions</li><li>Lock in and reveal</li><li>Rounds 2 and 3</li><li>Results and the secret future</li></ol></div></div>` },
+    bullets: ["Damage and lives lost are averaged over 300 possible futures: 300 different centuries of floods the river could produce. Luck in your live future doesn't decide the result.", "Strategies that win one score usually lose another. That's the point."], vis: scoresSample },
 ];
 function makeTour(rootId, steps, key) {
   let i = Math.min(steps.length - 1, Math.max(0, store.get(key) || 0));
@@ -1170,6 +1238,7 @@ function stateAt(k) {
   const rp = UW.replay({ F: G.F, r: G.r.slice(0, k) }, REC0, ENS);
   return { S: rp.S, rounds: rp.rounds };
 }
+const newId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const curK = () => !G ? 0 : G.phase === "plan" ? G.r.length : Math.max(0, G.r.length - 1);
 const floodClass = L => L >= 5.5 ? "major" : L >= 4.5 ? "moderate" : L >= 3 ? "minor" : "below minor";
 const clsPill = L => L >= 5.5 ? "dg" : L >= 4.5 ? "wn" : L >= 3 ? "hv" : "";
@@ -1194,7 +1263,7 @@ function forecast(P, S, ctx, segOnly) {
   const futs = beliefFutures(ctx, P.d.scen, P.d.regional);
   let dmg = 0, lam = 0, over = 0;
   for (const f of futs) {
-    let dyn = { M: S.M, A: S.A }, o = false;
+    let dyn = { M: S.M, A: S.A, F: S.MF || 0 }, o = false;
     for (let k = ctx.k; k < (segOnly ? ctx.k + 1 : 3); k++) { const seg = UW.simSegment(P, f, k, dyn); dyn = seg.dyn; dmg += seg.dmg + seg.nbr; lam += seg.lam; if (seg.nOver) o = true; }
     if (o) over++;
   }
@@ -1204,11 +1273,11 @@ function forecast(P, S, ctx, segOnly) {
 function evalPath(plans, ctxs) {
   const n = plans.length, out = { dmg: [], lam: [], sup: [], over: 0, segDmg: plans.map(() => 0), segLam: plans.map(() => 0) };
   for (const f of ENS) {
-    let dyn = { M: 30, A: 20 }, dmg = 0, lam = 0, o = false, sup = 70;
+    let dyn = { M: 30, A: 20, F: 0 }, dmg = 0, lam = 0, o = false, sup = 70;
     for (let k = 0; k < n; k++) {
       const seg = UW.simSegment(plans[k], f, k, dyn); dyn = seg.dyn;
       dmg += seg.dmg + seg.nbr; lam += seg.lam; out.segDmg[k] += seg.dmg + seg.nbr; out.segLam[k] += seg.lam; if (seg.nOver) o = true;
-      if (k === n - 1) sup = UW.supportFactors(plans[k], seg, ctxs[k]).total;
+      sup = UW.supportFactors(plans[k], seg, { ...ctxs[k], supportStart: UW.supportCarry(sup, k) }).total;
     }
     out.dmg.push(dmg); out.lam.push(lam); out.sup.push(sup); if (o) out.over++;
   }
@@ -1236,9 +1305,9 @@ const CTRLS = {
   protect: [
     { key: "align", type: "seg", label: "Levee line", opts: () => UW.ALIGN_ORDER.map(a => [a, UW.ALIGN[a].label]), minIdx: S => UW.ALIGN_ORDER.indexOf(S.align), items: ["Levee", "Levee upgrade"],
       val: P => P.align === "none" ? "No levee. Pick a line, or click a zone on the map." : `Protects ${fmt(Math.round(peopleInside(P) / 10) * 10)} people behind ${UW.ALIGN[P.align].len.toFixed(1)} km of levee. Riverside stays outside.` },
-    { key: "lfb", type: "range", label: "Levee freeboard", min: -1, max: 1.5, step: 0.1, show: v => `${+v < 0 ? "−" : "+"}${Math.abs(+v).toFixed(1)} m`, needs: P => P.align !== "none" ? "" : "Needs a levee.",
+    { key: "lfb", type: "range", label: "Levee height vs design flood", min: -1, max: 1.5, step: 0.1, show: v => `${+v < 0 ? "−" : "+"}${Math.abs(+v).toFixed(1)} m`, needs: P => P.align !== "none" ? "" : "Needs a levee.",
       tag: P => P.align === "none" ? "no levee" : `crest ${P.crest.toFixed(1)} m`,
-      val: (P, S) => P.align === "none" ? "Height above your design flood." : (S.crest > P.DFL + P.d.lfb + 0.05 ? `Existing crest ${S.crest.toFixed(1)} m${S.crest < P.DFL ? `, ${(P.DFL - S.crest).toFixed(1)} m below your new design flood` : ""}. Slide right to raise it. Levees never come down.` : P.d.lfb < 0 ? `Crest ${P.crest.toFixed(1)} m, below your design flood. Cheaper, but bigger floods pour in.` : `Crest ${P.crest.toFixed(1)} m. Taller costs more, sends more water to Soggyton and blocks the view.`) },
+      val: (P, S) => P.align === "none" ? "Height above your design flood." : (S.crest > P.DFL + P.d.lfb + 0.05 ? `Existing crest ${S.crest.toFixed(1)} m${S.crest < P.DFL ? `, ${(P.DFL - S.crest).toFixed(1)} m below your new design flood` : ""}. Slide right to raise it. Levees never come down.` : P.d.lfb < 0 ? `Crest ${P.crest.toFixed(1)} m: ${Math.abs(P.d.lfb).toFixed(1)} m below your design flood. Cheaper, but floods above the crest pour in.` : `Crest ${P.crest.toFixed(1)} m: ${P.d.lfb.toFixed(1)} m of freeboard. Taller costs more, sends more water to Soggyton and blocks the view.`) },
     { key: "bridge", type: "toggle", label: "Raise the bridge", items: ["Raise the bridge"], built: S => S.bridge, val: () => "Deck from 5.8 m to 7.2 m. The road out stays open longer." },
     { key: "spillway", type: "toggle", label: "Levee spillway", from: 1, items: ["Spillway"], built: S => S.spillway, needs: P => P.align !== "none" ? "" : "Needs a levee.",
       val: () => "A planned low point. If the levee overtops, water enters slowly: less damage, far fewer lives lost." },
@@ -1247,8 +1316,8 @@ const CTRLS = {
   ],
   plan: [
     { key: "hill", type: "range", label: "Homes on Hillside", min: 0, max: 900, step: 50, show: v => fmt(+v), floor: S => UW.hillBuilt(S), plus: true,
-      tag: P => `+${fmtM(P.newHill * UW.MONEY.contribPerHome * (P.code ? 0.75 : 1))}`,
-      val: P => `${fmt(P.d.hill)} homes${P.newHill ? `, ${fmt(P.newHill)} approved now` : ""}. Developers pay $20k per new home. More rates later.` },
+      tag: P => `+${fmtM(P.newHill * UW.MONEY.contribPerHome[P.k] * (P.code ? 0.75 : 1))}`,
+      val: P => `${fmt(P.d.hill)} homes${P.newHill ? `, ${fmt(P.newHill)} approved now` : ""}. Developers pay $${Math.round(UW.MONEY.contribPerHome[P.k] * 1000)}k per new home${P.k === 0 ? " now, $20k in later rounds" : ""}. More rates later.` },
     { key: "hfb", type: "range", label: "Floor freeboard for new homes", min: 0, max: 1.5, step: 0.1, show: v => `+${(+v).toFixed(1)} m`, items: ["Raise Hillside building pads"],
       val: P => P.newHill ? `New floors at ${P.hillFloor.toFixed(1)} m. Council pays for the fill.` : "Sets floor height for new homes approved this round." },
     { key: "rsBuy", type: "range", label: "Riverside buyback", min: 0, max: 100, step: 10, show: v => `${v}%`, floor: S => Math.round(100 * S.rsBought / 200), items: ["Riverside buyback"],
@@ -1304,7 +1373,7 @@ function playBar() {
   const steps = []; for (let i = 0; i < 3; i++) { steps.push(`Round ${i + 1}`); steps.push(`Reveal ${segYears(i)}`); } steps.push("Results");
   const cur = ph === "results" ? 6 : (ph === "plan" || ph === "locked") ? 2 * k : 2 * k + 1;
   return `<div class="playbar"><div class="stepper" aria-label="Progress">${steps.map((s, i) => `<span class="${i < cur ? "done" : i === cur ? "on" : ""}">${s}</span>`).join("")}</div>
-    <div class="row"><span class="pill">${G.mode === "solo" ? "Solo" : "In class"} · ${esc(G.g)}</span><button class="btn" type="button" id="newGame">New game</button></div></div>`;
+    <div class="row"><span class="pill">${G.mode === "solo" ? "Solo" : "In class"}${G.g && G.g !== "Solo" ? ` · ${esc(G.g)}` : ""}</span><button class="btn" type="button" id="newGame">New game</button></div></div>`;
 }
 function armButton(b, armedText, fn) {
   if (!b) return; let armed = false, t; const orig = b.textContent;
@@ -1330,8 +1399,8 @@ function setupHTML() {
 function wireSetup() {
   $("play").querySelectorAll("[data-start]").forEach(b => b.onclick = () => {
     const mode = b.dataset.start;
-    if (mode === "class") { const g = $("gName").value.trim(); if (!g) { $("gErr").hidden = false; $("gName").focus(); return; } G = { v: 3, mode, g, F: 0, r: [], phase: "plan", cur: null }; }
-    else G = { v: 3, mode, g: $("sName").value.trim() || "Solo", F: 1 + Math.floor(Math.random() * UW.N_REP), r: [], phase: "plan", cur: null };
+    if (mode === "class") { const g = $("gName").value.trim(); if (!g) { $("gErr").hidden = false; $("gName").focus(); return; } G = { v: 3, id: newId(), mode, g, F: 0, r: [], phase: "plan", cur: null }; }
+    else G = { v: 3, id: newId(), mode, g: $("sName").value.trim() || "Solo", F: 1 + Math.floor(Math.random() * UW.N_REP), r: [], phase: "plan", cur: null };
     saveNow(); renderPlay();
   });
 }
@@ -1349,10 +1418,10 @@ function renderPlan() {
   testL = null;
   const nDec = ctx.events.filter(e => e.type === "decision").length;
   const H = ctx.H, hLab = H >= 1.25 ? "high" : H >= 0.85 ? "normal" : "low";
-  const gauge = (lab, val, pct, col) => `<div class="gauge"><div class="lab">${lab}</div><div class="val">${val}</div><div class="meter"><i style="width:${Math.max(3, Math.min(100, pct))}%;background:${col}"></i></div></div>`;
-  $("play").innerHTML = playBar() + `
+  const gauge = (lab, val, pct, col, floor) => `<div class="gauge"><div class="lab">${lab}</div><div class="val">${val}</div><div class="meter"><i style="width:${Math.max(3, Math.min(100, pct))}%;background:${col}"></i>${floor > 2 ? `<b class="floor" style="left:${Math.min(99, floor)}%" title="Lasting memory of past disasters"></b>` : ""}</div></div>`;
+  $("play").innerHTML = playBar() + historyHTML(k) + `
     <div class="roundhead"><div><div class="eyebrow">Round ${k + 1} of 3 · decisions for ${segYears(k)}</div><h2>${UW.ROUND_YEAR[k]}: ${["Set the town's course", "Thirty-three years on", "The last stretch"][k]}</h2></div>
-      <div class="gauges">${gauge("Community support", `${S.support}<small>/100</small>`, S.support, supCol(S.support))}${gauge("Flood memory", memLabel(S.M), S.M, "var(--know)")}${gauge("Housing pressure", hLab, H / 2 * 100, "var(--plan)")}${gauge("People housed", fmt(Math.round(UW.peopleHoused(S) / 10) * 10), UW.peopleHoused(S) / 60, "var(--ink-2)")}</div></div>
+      <div class="gauges">${gauge("Community support", `${S.support}<small>/100</small>`, S.support, supCol(S.support))}${gauge("Flood memory", memLabel(S.M), S.M, "var(--know)", S.MF || 0)}${gauge("Housing pressure", hLab, H / 2 * 100, "var(--plan)")}${gauge("People housed", fmt(Math.round(UW.peopleHoused(S) / 10) * 10), UW.peopleHoused(S) / 60, "var(--ink-2)")}</div></div>
     ${nDec ? `<div class="banner" role="status"><b>${nDec} decision${nDec > 1 ? "s" : ""} waiting in the Herald.</b> Answer ${nDec > 1 ? "them" : "it"} before you lock in.</div>` : ""}
     <div id="heraldBox">${heraldHTML(ctx, G.cur.h, true)}</div>
     <div class="board">
@@ -1362,22 +1431,27 @@ function renderPlan() {
         <div class="dfl" id="chips"></div>
         <div class="testflood"><div class="ctl-inline" style="margin-top:0"><label for="tfL"><b>Test a flood</b></label><input type="range" id="tfL" min="2" max="10.5" step="0.1" value="${Math.min(10.5, ctx.fit1).toFixed(1)}"><b id="tfO" class="num">off</b><button class="btn" type="button" id="tfClear">Clear</button></div>
           <div class="out" id="tfOut">Drag to see what a flood of any height would do to this plan.</div></div>
+        <div class="fcbox"><div class="lab">Your flood study forecasts for ${UW.ROUND_YEAR[k]}–2126, if this plan held</div><div class="fc" id="tFc">…</div><div class="small faint">Based on your design assumptions, not the real river.</div></div>
       </div>
       <div class="lanes">${Object.entries(CTRLS).map(([lane, arr]) => { const L = LANES[lane];
         return `<section class="lane" style="--lane:${L.col};--lane-t:${L.tint}"><header><h3>${L.name}</h3><span>${L.sub}</span><span class="lanecost" data-lanecost="${lane}"></span></header>
           ${lane === "know" ? `<details class="mini"><summary>See the climate change projections</summary><div id="climBox"></div></details>` : ""}
           ${arr.map(c => ctrlHTML({ ...c, lane }, ctx)).join("")}
-          ${lane === "know" ? `<p class="out-line" id="dflLine"></p>` : ""}</section>`; }).join("")}</div>
+          ${lane === "know" ? `<p class="out-line" id="dflLine"></p><p class="knock" id="knock" hidden></p>` : ""}</section>`; }).join("")}</div>
     </div>
-    <div class="till" id="till"><div class="cols">
-      <div><div class="lab">Money available</div><div class="val" id="tAvail"></div><div class="small muted" id="tAvailSub"></div></div>
-      <div><div class="lab">Council will approve</div><div class="val" id="tAppr"></div><div class="meter"><i id="tApprBar"></i></div></div>
-      <div><div class="lab">This round costs</div><div class="val" id="tSpend"></div><div class="mix" id="tMix"></div></div>
-      <div class="fccol"><div class="lab">Your flood study forecasts, ${UW.ROUND_YEAR[k]}–2126</div><div class="fc" id="tFc">…</div></div>
-      <div class="lockcol"><button class="btn go big" type="button" id="lockBtn" style="width:100%;justify-content:center">Lock in Round ${k + 1}</button><div class="why" id="tWhy"></div></div>
+    <div class="till" id="till"><div class="tillrow">
+      <div class="tcell"><div class="lab">Money available</div><div class="val" id="tAvail"></div></div>
+      <div class="tcell"><div class="lab">Council will approve</div><div class="val" id="tAppr"></div><div class="meter"><i id="tApprBar"></i></div></div>
+      <div class="tcell"><div class="lab">This round costs</div><div class="val" id="tSpend"></div><div class="mix" id="tMix"></div></div>
+      <div class="tcell grow"><div class="why" id="tWhy"></div></div>
+      <button class="btn go" type="button" id="lockBtn">Lock in Round ${k + 1}</button>
+      <button class="tilltog" type="button" id="tillTog" aria-expanded="false" aria-controls="tillMore">Budget <span aria-hidden="true">▴</span></button>
     </div>
-    <details class="budget"><summary>Budget details</summary><div class="grid2" style="margin-top:6px"><div id="tLedger"></div><div id="tItems"></div></div></details></div>`;
-  wireBar();
+    <div class="tillmore" id="tillMore" hidden><div class="grid2"><div id="tLedger"></div><div id="tItems"></div></div></div></div>`;
+  wireBar(); wireHistory(k);
+  // budget drawer
+  const setTill = open => { $("tillMore").hidden = !open; $("tillTog").setAttribute("aria-expanded", String(open)); $("tillTog").querySelector("span").textContent = open ? "▾" : "▴"; store.set("uw3-till", open); };
+  setTill(!!store.get("uw3-till")); $("tillTog").onclick = () => setTill($("tillMore").hidden);
   // herald
   wireHerald(ctx);
   // view switch
@@ -1434,6 +1508,11 @@ function renderPlan() {
     for (const lane of Object.keys(CTRLS)) $("play").querySelector(`[data-lanecost="${lane}"]`).textContent = fmtM(P.cost[lane]);
     const relaxed = G.cur.h.challenge === "relax" && ctx.events.some(e => e.id === "challenge");
     $("dflLine").innerHTML = `Design flood <b class="num">${P.DFL.toFixed(2)} m</b> = record estimate ${ctx.fit1.toFixed(2)}${P.d.regional ? " + regional study 0.40" : ""}${P.climate > 0 ? ` + climate ${P.climate.toFixed(2)}` : ""}${relaxed ? ". Council has relaxed your standard to medium emissions and 0.5 m freeboard." : ""}`;
+    const kn = $("knock");
+    if (P.climate > 0) { const P0 = UW.buildPlan({ ...G.cur.d, scen: "none" }, G.cur.h, ctx, S), dl = P.cost.protect - P0.cost.protect, df = P.cost.plan - P0.cost.plan;
+      const bits = [dl > 0.05 ? `<b>${fmtM(dl)}</b> to the levee` : "", df > 0.05 ? `<b>${fmtM(df)}</b> to new floors` : ""].filter(Boolean);
+      kn.hidden = false; kn.innerHTML = bits.length ? `Your climate allowance adds ${bits.join(" and ")} this round. Short of money? Keep the projection and build the levee below the design flood in Protect.` : "Your climate allowance doesn't change this round's costs: it sets the standard for what you build.";
+    } else kn.hidden = true;
     const cb = $("climBox"); if (cb && cb.closest("details").open) cb.innerHTML = climateSVG(k, P.d.scen === "none" ? null : P.d.scen);
   }
   $("play").querySelector("details.mini").ontoggle = e => { if (e.target.open) refresh(); };
@@ -1442,7 +1521,6 @@ function renderPlan() {
     lastP = P;
     const issues = UW.validate(P), pending = ctx.events.filter(e => e.type === "decision" && !G.cur.h[e.id]);
     $("tAvail").textContent = fmtM(P.available);
-    $("tAvailSub").textContent = P.contrib > 0.05 ? `incl. ${fmtM(P.contrib)} from developers` : "";
     $("tAppr").textContent = fmtM(P.approval); $("tApprBar").style.width = `${Math.round(P.approvalFrac * 100)}%`; $("tApprBar").style.background = "var(--hivis)";
     $("tSpend").innerHTML = `<span class="${P.spend > P.approval + 0.05 ? "worse" : ""}">${fmtM(P.spend)}</span>`;
     $("tMix").innerHTML = P.spend > 0 ? Object.keys(LANES).map(l => `<i style="width:${100 * P.cost[l] / Math.max(P.spend, P.approval)}%;background:${LANES[l].col}" title="${LANES[l].name} ${fmtM(P.cost[l])}"></i>`).join("") : "";
@@ -1454,7 +1532,7 @@ function renderPlan() {
     clearTimeout(fcT); $("tFc").classList.add("stale");
     fcT = setTimeout(() => { if (lastP !== P || !$("tFc")) return; const f = forecast(P, S, ctx, false);
       $("tFc").classList.remove("stale");
-      $("tFc").innerHTML = `<span>Damage <b>${fmtM(f.dmg)}</b></span><span>Expected lives lost <b>${f.pll.toFixed(1)}</b></span>${P.align !== "none" ? `<span>Levee overtopped <b>${Math.round(100 * f.pOver)}%</b></span>` : ""}<span class="faint">if this plan held. Based on your design assumptions, not the real river.</span>`; }, 140);
+      $("tFc").innerHTML = `<span>Damage <b>${fmtM(f.dmg)}</b></span><span>Expected lives lost <b>${f.pll.toFixed(1)}</b></span>${P.align !== "none" ? `<span>Levee overtopped <b>${Math.round(100 * f.pOver)}%</b> of futures</span>` : ""}`; }, 140);
   }
   function lockIn() {
     const P = UW.buildPlan(G.cur.d, G.cur.h, ctx, S);
@@ -1499,7 +1577,7 @@ function receiptHTML(P) {
 }
 function renderLocked() {
   const k = G.r.length - 1, { S } = stateAt(k), ctx = UW.contextFor(S, REC0), P = UW.buildPlan(G.r[k].d, G.r[k].h, ctx, S), code = encodeGame(G);
-  $("play").innerHTML = playBar() + `
+  $("play").innerHTML = playBar() + historyHTML(k) + `
     <div class="roundhead"><div><div class="eyebrow">Round ${k + 1} locked in</div><h2>Hand in your plan</h2></div></div>
     <div class="grid2">
       <div class="card"><ol class="steps">
@@ -1512,7 +1590,7 @@ function renderLocked() {
       <div style="border-top:1px solid var(--line);margin-top:16px;padding-top:12px"><button class="btn" type="button" id="unlockBtn">Unlock and change my plan</button></div></div>
       <div class="card"><h3 style="margin-bottom:8px">Your Round ${k + 1} plan</h3>${mapFromPlan(P)}<div style="margin-top:10px">${receiptHTML(P)}</div></div>
     </div>`;
-  wireBar();
+  wireBar(); wireHistory(k);
   $("copyBtn").onclick = () => copyText($("copyBtn"), code);
   $("unlockBtn").onclick = () => { const x = G.r.pop(); G.cur = { k, d: x.d, h: x.h }; G.phase = "plan"; saveNow(); renderPlay(); };
   $("revealBtn").onclick = () => {
@@ -1597,19 +1675,23 @@ function renderSummary() {
   const [a, b] = UW.SEG[k], hasL = P.align !== "none";
   const stat = (v, l, bad) => `<div class="counter"><b class="${bad ? "worse" : ""}">${v}</b><span>${l}</span></div>`;
   const evs = k < 2 ? (S2.events || []) : [];
-  $("play").innerHTML = playBar() + `
-    <div class="roundhead"><div><div class="eyebrow">Round ${k + 1} · what happened</div><h2>${segYears(k)} in review</h2></div></div>
+  const log = seg.years.map(y => logLine(y, P)).filter(Boolean).join("") || `<li class="faint">No notable floods this period.</li>`;
+  $("play").innerHTML = playBar() + historyHTML(k) + `
+    <div class="roundhead"><div><div class="eyebrow">Round ${k + 1} · what happened</div><h2>${segYears(k)} in review</h2></div>
+      <button class="btn" type="button" id="sumReplay">Replay ${segYears(k)}</button></div>
     <div class="grid2">
       <div class="card"><h3>The river</h3>
         <div class="counters">${stat(m1(seg.maxL), "highest flood")}${stat(fmtM(seg.dmg), "damage in town", seg.dmg > 100)}${stat(fmtM(seg.nbr), "damage in Soggyton", seg.nbr > 30)}${stat(seg.lives, "lives lost", seg.lives > 0)}</div>
         ${centurySVG(seg.years, [segsOf(rp)[k]], { offset: a, n: b - a, w: 640, h: 210 })}
-        <div class="row small muted" style="margin-top:8px">${hasL ? `<span>Levee overtopped <b>${seg.nOver}</b> time${seg.nOver === 1 ? "" : "s"}</span>` : ""}<span>False alarms <b>${seg.fa}</b></span><span>Flood memory now <b>${memLabel(S2.M)}</b></span><span>Saved for next round <b>${fmtM(S2.unspent)}</b></span></div></div>
+        <div class="row small muted" style="margin-top:8px">${hasL ? `<span>Levee overtopped <b>${seg.nOver}</b> time${seg.nOver === 1 ? "" : "s"}</span>` : ""}<span>False alarms <b>${seg.fa}</b></span><span>Flood memory now <b>${memLabel(S2.M)}</b></span><span>Saved for next round <b>${fmtM(S2.unspent)}</b></span></div>
+        <h4 class="minihead">Flood log</h4><ul class="ticker">${log}</ul></div>
       <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:8px"><h3>Community support</h3><span class="bigsup" style="color:${supCol(sup.total)}">${sup.total}<small>/100</small></span></div>
-        ${supportHTML(sup)}<p class="small faint" style="margin-top:8px">Support is worked out fresh for each period from what people lived through and what you did.</p></div>
+        ${supportHTML(sup)}<p class="small faint" style="margin-top:8px">Each period starts halfway between 70 and where support ended last time. These factors then move it.</p></div>
     </div>
     ${evs.length ? `<div class="card" style="margin-top:16px"><h3 style="margin-bottom:8px">Next in the Herald</h3><ul class="plainlist">${evs.map(e => `<li>${e.type === "decision" ? `<span class="pill hv">Decision</span>` : `<span class="pill">News</span>`} ${esc(e.title)}</li>`).join("")}</ul></div>` : ""}
     <div style="margin-top:16px"><button class="btn go big" type="button" id="sumNext">${k < 2 ? `Start Round ${k + 2} · ${UW.ROUND_YEAR[k + 1]}` : "See your results"}</button></div>`;
-  wireBar();
+  wireBar(); wireHistory(k);
+  $("sumReplay").onclick = () => { G.phase = "reveal"; saveNow(); renderPlay(); };
   $("sumNext").onclick = () => { G.phase = k < 2 ? "plan" : "results"; G.cur = null; saveNow(); renderPlay(); };
 }
 
@@ -1618,7 +1700,7 @@ function stations(rounds) {
   const em = { low: "Low", medium: "Medium", high: "High" };
   return rounds.map((R, k) => {
     const P = R.P, S = R.Sbefore, prev = k ? rounds[k - 1].P : null, st = { know: [], protect: [], plan: [], prepare: [], herald: [] };
-    const add = (l, t, quiet) => st[l].push({ t, quiet: !!quiet });
+    const add = (l, t, quiet, cls) => st[l].push({ t, quiet: !!quiet, cls });
     add("know", `Design ${P.DFL.toFixed(1)} m (${P.d.scen === "none" ? "no climate" : em[P.d.scen].toLowerCase()}, ${P.year})`, prev && prev.d.scen === P.d.scen && prev.d.hz === P.d.hz);
     if (P.d.regional && !S.regional) add("know", "Regional flood study");
     if (P.align !== "none") {
@@ -1626,6 +1708,7 @@ function stations(rounds) {
       else if (P.align !== S.align) add("protect", `Levee extended: ${UW.ALIGN[P.align].label}, ${P.crest.toFixed(1)} m`);
       else if (P.crest > S.crest + 0.05) add("protect", `Levee raised to ${P.crest.toFixed(1)} m`);
       else add("protect", `Levee holds at ${P.crest.toFixed(1)} m`, true);
+      if (P.crest < P.DFL - 0.05) add("protect", `${(P.DFL - P.crest).toFixed(1)} m below design flood`, false, "flag");
     }
     if (P.bridge && !S.bridge) add("protect", "Bridge raised");
     if (P.spillway && !S.spillway) add("protect", "Spillway");
@@ -1657,7 +1740,7 @@ function pathwayHTML(rp) {
   let s = `<div class="pathway"><div class="h"></div>${rp.rounds.map((r, k) => `<div class="h">Round ${k + 1} · ${UW.ROUND_YEAR[k]}</div>`).join("")}`;
   for (const [key, name, col] of rows) {
     s += `<div class="lane-name" style="--lane:${col}">${name}</div>`;
-    for (let k = 0; k < rp.rounds.length; k++) { const arr = st[k][key]; s += `<div class="cell" style="--lane:${col}">${arr.length ? arr.map(x => `<span class="station ${x.quiet ? "quiet" : ""}">${esc(x.t)}</span>`).join("") : `<span class="station quiet" style="border-color:transparent">none</span>`}</div>`; }
+    for (let k = 0; k < rp.rounds.length; k++) { const arr = st[k][key]; s += `<div class="cell" style="--lane:${col}">${arr.length ? arr.map(x => `<span class="station ${x.quiet ? "quiet" : ""} ${x.cls || ""}">${esc(x.t)}</span>`).join("") : `<span class="station quiet" style="border-color:transparent">none</span>`}</div>`; }
   }
   s += `<div class="lane-name" style="--lane:var(--water-deep)">River</div>` + rp.rounds.map(R => { const g = R.seg, bad = g.lives > 0 || g.nOver > 0;
     return `<div class="cell" style="--lane:var(--water)"><span class="station">peak ${m1(g.maxL)}</span><span class="station">${fmtM(g.dmg + g.nbr)} damage</span>${g.nOver ? `<span class="station" style="border-color:var(--danger)">overtopped ×${g.nOver}</span>` : ""}${g.lives ? `<span class="station" style="border-color:var(--danger)">${g.lives} ${g.lives === 1 ? "life" : "lives"} lost</span>` : ""}${!bad && g.quiet ? `<span class="station quiet">quiet decades</span>` : ""}</div>`; }).join("");
@@ -1671,9 +1754,10 @@ function mixHTML(by) {
 }
 function scoreTile(lab, v, live, mine, bau, lowerBetter, f) {
   const d = mine - bau, tol = Math.max(Math.abs(bau) * 0.02, 0.05);
-  const cmp = Math.abs(d) < tol ? `same as business as usual` : `<b>${d > 0 ? "+" : "−"}${f(Math.abs(d))}</b> vs business as usual`;
-  const cls = Math.abs(d) < tol ? "" : (lowerBetter ? d < 0 : d > 0) ? "better" : "worse";
-  return `<div class="score"><div class="lab">${lab}</div><div class="v">${v}</div><div class="live">${live}</div><div class="cmp ${cls}">${cmp}</div></div>`;
+  const cls = Math.abs(d) < tol ? "same" : (lowerBetter ? d < 0 : d > 0) ? "better" : "worse";
+  const word = { better: "Better", worse: "Worse", same: "Same" }[cls];
+  const cmp = cls === "same" ? `as business as usual` : `${d > 0 ? "+" : "−"}${f(Math.abs(d))} vs business as usual`;
+  return `<div class="score ${cls}"><div class="lab">${lab}</div><div class="v">${v}</div><div class="live">${live}</div><div class="cmp"><span class="verdict">${word}</span> ${cmp}</div></div>`;
 }
 function renderResults() {
   const rp = UW.replay({ F: G.F, r: G.r }, REC0, ENS), plans = rp.rounds.map(r => r.P), ctxs = rp.rounds.map(r => r.ctx);
@@ -1686,7 +1770,8 @@ function renderResults() {
   const tauRank = ENS.filter(f => f.tau < rp.fut.tau).length + 1;
   const sev = tauRank > 200 ? "a severe" : tauRank > 100 ? "a middling" : "a mild";
   const lastSup = rp.rounds[2].sup;
-  $("play").innerHTML = playBar() + `
+  const att = recordAttempt({ cost: S.spent, dmg: ev.dmgMean, pll: ev.pll, housed, sup: S.support, mix: S.spentByLane });
+  $("play").innerHTML = playBar() + historyHTML(3) + `
     <div class="roundhead"><div><div class="eyebrow">Results · ${esc(G.g)}</div><h2>Your century, 2026–2126</h2></div></div>
     <div class="scores">
       ${scoreTile("Cost", fmtM(S.spent), "spent, incl. maintenance and claims", S.spent, bS.spent, true, fmtM)}
@@ -1695,6 +1780,7 @@ function renderResults() {
       ${scoreTile("Housed", fmt(Math.round(housed / 10) * 10), `people in 2126 · ${fmt(UW.homesTotal(S))} homes`, housed, bHoused, false, v => fmt(Math.round(v / 10) * 10))}
       ${scoreTile("Support", `${S.support}<small>/100</small>`, `at the end · ${Math.round(ev.supMean)} averaged over 300 futures`, S.support, bS.support, false, v => Math.round(v))}
     </div>
+    <div class="callout"><b>What "300 futures" means.</b> The river could have produced many different centuries of floods, from mild to severe, each with its own pace of climate change. The model runs your decisions through 300 of them. Damage and lives lost are averaged over all 300, so a lucky or unlucky river doesn't decide your score. Your live future was just one of the 300.</div>
     <p class="small muted" style="margin-top:8px">Business as usual: a centre-and-suburbs levee 0.3 m above a design flood that ignores climate change, all 900 Hillside homes, basic warnings, every development approved and maintenance deferred.</p>
     <div class="card" style="margin-top:16px"><div class="row" style="justify-content:space-between;margin-bottom:6px"><h3>Your live future</h3>${centLegend(true)}</div>
       ${centurySVG(allYears, segsOf(rp), { truth })}
@@ -1703,6 +1789,8 @@ function renderResults() {
       <div class="card"><h3>Damage across 300 futures</h3><p class="small muted">Solid: your pathway. Dashed: business as usual. Yellow line: your live future.</p>${histSVG(ev.dmg, B.ev.dmg, S.dmg + S.nbr, null, { col: "var(--warn)", fmt: v => "$" + fmt(v) + "M", axis: "total damage over the century, town plus Soggyton", label: "Damage across 300 futures" })}</div>
       <div class="card"><h3>Expected lives lost across 300 futures</h3><p class="small muted">${plans[2].align !== "none" ? `Your levee was overtopped at least once in <b>${Math.round(100 * ev.pOver)}%</b> of futures (business as usual ${Math.round(100 * B.ev.pOver)}%).` : `Without a levee, nothing can be overtopped. Business as usual's levee was overtopped in ${Math.round(100 * B.ev.pOver)}% of futures.`}</p>${histSVG(ev.lam, B.ev.lam, S.lam, null, { col: "var(--danger)", fmt: v => v.toFixed(1), axis: "expected lives lost over the century", label: "Expected lives lost across 300 futures" })}</div>
     </div>
+    <div class="card" style="margin-top:16px"><h3 style="margin-bottom:4px">Same decisions, different rivers</h3><p class="small muted" style="margin-bottom:10px">Your three rounds of decisions replayed through a mild, a typical and a severe future from the 300. In those rivers you would have reacted differently as events unfolded, so read these as "what if this plan met a different century".</p>
+      <div class="trio">${trioHTML(plans, B, segsOf(rp))}</div></div>
     <div class="card" style="margin-top:16px"><h3 style="margin-bottom:4px">Your pathway</h3><p class="small muted" style="margin-bottom:10px">What you did each round, what the Herald forced on you, and what the river did. Dashed stations carried on unchanged.</p>
       <div class="tablewrap">${pathwayHTML(rp)}</div><div style="margin-top:14px;max-width:560px">${mixHTML(S.spentByLane)}</div></div>
     <div class="grid2" style="margin-top:16px">
@@ -1715,10 +1803,81 @@ function renderResults() {
     <div class="card" style="margin-top:16px">${G.mode === "solo"
       ? `<h3>Your secret future was #${G.F}</h3><p class="muted" style="margin-top:6px">That was ${sev} future: its climate drift ranked ${tauRank} of 300 for how fast big floods grew. Your scores above average over all 300, so a lucky or unlucky river doesn't decide them.</p>`
       : `<h3>Final code</h3><p class="muted" style="margin:4px 0 8px">Paste this where your facilitator asks.</p><div class="copybox" id="finalCode">${esc(encodeGame(G))}</div><button class="btn" type="button" id="copyFinal" style="margin-top:8px">Copy code</button>`}
-      <div style="margin-top:14px"><button class="btn primary" type="button" id="againBtn">Play again</button></div></div>`;
-  wireBar();
+      <div style="margin-top:14px"><button class="btn primary" type="button" id="againBtn">Play again</button></div></div>
+    <div class="card" style="margin-top:16px" id="attemptsCard">${attemptsHTML(att)}</div>`;
+  wireBar(); wireHistory(3); wireAttempts(att);
   if ($("copyFinal")) $("copyFinal").onclick = () => copyText($("copyFinal"), encodeGame(G));
   armButton($("againBtn"), "Click again to start a new town", () => { G = null; store.del("uw3-game"); renderPlay(); });
+}
+
+// ================= look back at earlier rounds =================
+function historyHTML(upto) {
+  if (!upto || !G || !G.r || G.r.length < upto) return "";
+  return `<details class="history" id="hist"><summary>Look back at earlier rounds</summary><div class="hist-in">
+    <span class="seg" id="histSeg">${Array.from({ length: upto }, (_, j) => `<button type="button" data-j="${j}" aria-pressed="${j === upto - 1}">Round ${j + 1} · ${segYears(j)}</button>`).join("")}</span>
+    <div id="histBody"></div></div></details>`;
+}
+function wireHistory(upto) {
+  const d = $("hist"); if (!d) return;
+  let j = upto - 1, rp = null;
+  const draw = () => { rp = rp || UW.replay({ F: G.F, r: G.r.slice(0, upto) }, REC0, ENS); $("histBody").innerHTML = roundRecapHTML(rp, j); $("histSeg").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(+b.dataset.j === j))); };
+  d.ontoggle = () => { if (d.open) draw(); };
+  $("histSeg").querySelectorAll("button").forEach(b => b.onclick = () => { j = +b.dataset.j; draw(); });
+}
+function roundRecapHTML(rp, j) {
+  const R = rp.rounds[j], P = R.P, seg = R.seg, [a, b] = UW.SEG[j], hasL = P.align !== "none";
+  const stat = (v, l, bad) => `<div class="counter"><b class="${bad ? "worse" : ""}">${v}</b><span>${l}</span></div>`;
+  const log = seg.years.map(y => logLine(y, P)).filter(Boolean).join("") || `<li class="faint">No notable floods this period.</li>`;
+  const her = (R.ctx.events || []).map(e => { const ch = e.type === "decision" && e.options ? (e.options.find(o => o.v === (P.h || {})[e.id]) || {}).label : null;
+    return `<li><span class="pill ${e.type === "decision" ? "hv" : ""}">${e.type === "decision" ? "Decision" : "News"}</span> ${esc(e.title)}${ch ? `<div class="small muted" style="margin:2px 0 0 4px">You chose: <b>${esc(ch)}</b></div>` : ""}</li>`; }).join("");
+  return `<div class="grid2" style="margin-top:12px">
+    <div class="card"><h3 style="margin-bottom:8px">Your Round ${j + 1} plan</h3>${mapFromPlan(P)}<div style="margin-top:10px">${receiptHTML(P)}</div>
+      <div class="ledger" style="margin-top:10px;max-width:none">${P.items.map(i => `<span><i class="dot" style="background:${LANES[i.lane].col}"></i>${esc(i.label)}</span><span class="num">${fmtM(i.v)}</span>`).join("")}</div></div>
+    <div class="card"><h3>What happened, ${segYears(j)}</h3>
+      <div class="counters">${stat(m1(seg.maxL), "highest flood")}${stat(fmtM(seg.dmg), "damage in town", seg.dmg > 100)}${stat(fmtM(seg.nbr), "damage in Soggyton", seg.nbr > 30)}${stat(seg.lives, "lives lost", seg.lives > 0)}</div>
+      ${centurySVG(seg.years, [segsOf(rp)[j]], { offset: a, n: b - a, w: 640, h: 190 })}
+      ${hasL ? `<p class="small muted" style="margin-top:4px">Levee overtopped <b>${seg.nOver}</b> time${seg.nOver === 1 ? "" : "s"}.</p>` : ""}
+      <h4 class="minihead">Flood log</h4><ul class="ticker">${log}</ul></div>
+  </div>
+  <div class="grid2" style="margin-top:12px">
+    <div class="card"><h3 style="margin-bottom:8px">The Herald, ${UW.ROUND_YEAR[j]}</h3><ul class="plainlist">${her}</ul></div>
+    <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:8px"><h3>Community support</h3><span class="bigsup" style="color:${supCol(R.sup.total)}">${R.sup.total}<small>/100</small></span></div>${supportHTML(R.sup)}</div>
+  </div>`;
+}
+
+// ================= same decisions, different rivers =================
+function trioHTML(plans, B, segs) {
+  const order = ENS.map((_, i) => i).sort((x, y) => B.ev.dmg[x] - B.ev.dmg[y]);
+  const pick = [["Mild", 0.1], ["Typical", 0.5], ["Severe", 0.9]].map(([n, q]) => [n, order[Math.floor(q * (order.length - 1))]]);
+  return pick.map(([name, idx]) => {
+    const fut = ENS[idx]; let dyn = { M: 30, A: 20, F: 0 }, dmg = 0, lives = 0, over = 0; const years = [];
+    plans.forEach((P, k) => { const seg = UW.simSegment(P, fut, k, dyn); dyn = seg.dyn; dmg += seg.dmg + seg.nbr; lives += seg.lives; over += seg.nOver; years.push(...seg.years); });
+    return `<div class="trio-card"><div class="row" style="justify-content:space-between"><b class="trio-name">${name} future</b><span class="small faint">#${idx + 1}</span></div>
+      ${centurySVG(years, segs, { w: 480, h: 210, tick: 20 })}
+      <div class="nums3"><div><b>${fmtM(dmg)}</b>damage<span>business as usual ${fmtM(B.ev.dmg[idx])}</span></div><div><b class="${lives ? "worse" : ""}">${lives}</b>lives lost</div><div><b>${plans[2].align === "none" ? "—" : over}</b>overtopped</div></div></div>`;
+  }).join("");
+}
+
+// ================= attempts in this browser =================
+function recordAttempt(sc) {
+  let list = store.get("uw3-attempts"); if (!Array.isArray(list)) list = [];
+  if (!G.id) { G.id = newId(); saveNow(); }
+  let a = list.find(x => x.id === G.id);
+  if (!a) { a = { id: G.id, when: new Date().toISOString(), mode: G.mode, g: G.g, F: G.F, ...sc, cost: +sc.cost.toFixed(1), dmg: Math.round(sc.dmg), pll: +sc.pll.toFixed(2) }; list.unshift(a); store.set("uw3-attempts", list.slice(0, 30)); }
+  return a;
+}
+function attemptsHTML(cur) {
+  let list = store.get("uw3-attempts"); if (!Array.isArray(list) || !list.length) list = cur ? [cur] : [];
+  const when = iso => { try { const d = new Date(iso); return d.toLocaleDateString("en-AU", { day: "numeric", month: "short" }) + " " + d.toLocaleTimeString("en-AU", { hour: "numeric", minute: "2-digit" }); } catch (e) { return ""; } };
+  const mini = by => { const t = (by || []).reduce((a, b) => a + b, 0) || 1; return `<div class="stack" style="height:10px;min-width:90px">${["know", "protect", "plan", "prepare"].map((k, i) => `<i style="width:${100 * ((by || [])[i] || 0) / t}%;background:${LANES[k].col}"></i>`).join("")}</div>`; };
+  return `<div class="row" style="justify-content:space-between"><h3>Your attempts in this browser</h3>${list.length > 1 ? `<button class="btn" type="button" id="clearAtt">Clear history</button>` : ""}</div>
+    <p class="small muted" style="margin:4px 0 10px">Damage and lives lost are 300-future averages, so they compare fairly between attempts. Cost, housed and support depend on the future you played.</p>
+    <div class="tablewrap"><table class="t"><thead><tr><th>When</th><th>Name</th><th class="n">Future</th><th class="n">Cost</th><th class="n">Damage</th><th class="n">Lives lost</th><th class="n">Housed</th><th class="n">Support</th><th>Spending mix</th></tr></thead><tbody>
+    ${list.map(x => `<tr${cur && x.id === cur.id ? ' class="cur"' : ""}><td style="white-space:nowrap">${when(x.when)}${cur && x.id === cur.id ? ` <span class="pill hv">this game</span>` : ""}</td><td>${esc(x.g)}</td><td class="n">#${x.F}</td><td class="n">${fmtM(x.cost)}</td><td class="n">${fmtM(x.dmg)}</td><td class="n">${(+x.pll).toFixed(1)}</td><td class="n">${fmt(Math.round(x.housed / 10) * 10)}</td><td class="n">${x.sup}</td><td>${mini(x.mix)}</td></tr>`).join("")}
+    </tbody></table></div>`;
+}
+function wireAttempts(cur) {
+  armButton($("clearAtt"), "Click again to clear", () => { store.set("uw3-attempts", cur ? [cur] : []); $("attemptsCard").innerHTML = attemptsHTML(cur); wireAttempts(cur); });
 }
 
 // ================= facilitator =================
@@ -1833,7 +1992,7 @@ function facBody() {
 
 // ================= model notes =================
 function notesHTML() {
-  const fac = [["Starting point", "70", "Every period starts from a typical town's trust in council."], ["Levee on the skyline", "−2 per metre of crest above 6.5 m, per km", "Doubled if 20 years pass without a major flood."], ["Flood losses", "−1 per $40M of damage", "Capped at −20."], ["Lives lost", "−4 per life", "Capped at −25."], ["False alarms", "−1 each", "Evacuations for floods that flooded no homes. Capped at −10."], ["Buybacks and retreat", "−1 per 20 homes", "Halved in a recovery window."], ["Housing shortfall", "up to −12 × housing pressure", "Scaled by how much of the 900-home Hillside target is unbuilt."], ["Infill refused", "−6 × housing pressure", "Only when the Herald offers infill."], ["Rates and spending", "−1 per $4M above $40M", "Spending in a round."], ["Dispute with Soggyton", "−8 if paid, −14 if contested", "When a compensation claim arrives."], ["Farmland for basins", "−2 per basin", ""], ["Held a high standard", "−6", "When developers challenge your design flood and you hold."], ["Consultation", "+8", "Also lifts council approval."], ["Education campaign", "+0.6 per $1M", ""], ["Rebuilding after disaster", "+10", "Spending $15M+ on Protect and Plan in a recovery window."], ["Cut corners on maintenance", "−10", "Levee overtopped after maintenance was deferred."]];
+  const fac = [["Starting point", "70, then carried over", "Round 1 starts at 70, a typical town's trust in council. Later periods start halfway between 70 and where support ended last period."], ["Levee on the skyline", "−2 per metre of crest above 6.5 m, per km", "Doubled if 20 years pass without a major flood."], ["Flood losses", "−1 per $40M of damage", "Capped at −20."], ["Lives lost", "−4 per life", "Capped at −25."], ["False alarms", "−1 each", "Evacuations for floods that flooded no homes. Capped at −10."], ["Buybacks and retreat", "−1 per 20 homes", "Halved in a recovery window."], ["Housing shortfall", "up to −12 × housing pressure", "Scaled by how much of the 900-home Hillside target is unbuilt."], ["Infill refused", "−6 × housing pressure", "Only when the Herald offers infill."], ["Rates and spending", "−1 per $4M above $40M", "Spending in a round."], ["Dispute with Soggyton", "−8 if paid, −14 if contested", "When a compensation claim arrives."], ["Farmland for basins", "−2 per basin", ""], ["Held a high standard", "−6", "When developers challenge your design flood and you hold."], ["Consultation", "+8", "Also lifts council approval."], ["Education campaign", "+0.6 per $1M", ""], ["Rebuilding after disaster", "+10", "Spending $15M+ on Protect and Plan in a recovery window."], ["Cut corners on maintenance", "−10", "Levee overtopped after maintenance was deferred."]];
   return `<div class="eyebrow">For teachers and the curious</div><h2>How the model works</h2>
   <p>Underwaterville is a teaching model, not a flood study. Every number below is invented to be plausible for a temperate Victorian river town, and tuned so that no single strategy wins every score.</p>
   <h3>The river nobody can see</h3>
@@ -1847,12 +2006,12 @@ function notesHTML() {
   <p>Expected lives lost = people in flooded homes × share not evacuated × a loss-of-life rate. The rate is 0.015% in ordinary flooding, rising to 1.4× above 1 m and 2× above 2 m deep. Behind an overtopped levee it is eight times higher (water arrives fast and deep), cut by 60% with a spillway.</p>
   <p>People evacuate only if the warning reaches them in time (the warning system's reliability, worse when the flood exceeds your design flood), they choose to go (awareness, flood memory and wardens; fewer leave from behind tall levees) and they can get out (the bridge closes above its deck unless you raise it or build a second road). In the live future, the number of lives lost is drawn at random from these expectations.</p>
   <h3>People</h3>
-  <p><b>Flood memory</b> jumps after damaging floods and lives lost, then fades by 7% a year. <b>Awareness</b> fades the same way and is topped up by education spending. Low memory raises <b>housing pressure</b> and lowers council approval.</p>
+  <p><b>Flood memory</b> jumps after damaging floods and lives lost, then fades by 7% a year (halving about every 10 years). Floods where lives are lost or the levee is overtopped also leave a lasting floor that halves only every 25 years, so memory of a disaster lasts about a generation. This follows evidence that flood memory has a fast, word-of-mouth part and a slower part, and shapes behaviour for roughly one generation (Song et al. 2021, <i>Journal of Flood Risk Management</i>; Fanta et al. 2019, <i>Nature Communications</i>). <b>Awareness</b> fades the same way and is topped up by education spending. Low memory raises <b>housing pressure</b> and lowers council approval.</p>
   <h3>Money and council</h3>
-  <p>Each round: a council tranche ($50M, then $30M, $30M), $10k of rates per home, savings from last round, $20k developer contributions per new home (less under the building code), a $10M recovery grant after a $100M flood year. Out: levee maintenance (8% of levee value per round, unless deferred), council's share of flood recovery and any Soggyton claim. Council approves 35% + 0.5% per support point + 0.4% per memory point of the money available (40–100%), and 15% less again if support is under 40.</p>
+  <p>Each round: a council tranche ($50M, then $30M, $30M), $10k of rates per home, savings from last round, developer contributions per new home ($15k in Round 1, $20k after; 25% less under the building code), a $10M recovery grant after a $100M flood year. Out: levee maintenance (8% of levee value per round, unless deferred), council's share of flood recovery and any Soggyton claim. Council approves 35% + 0.5% per support point + 0.4% per memory point of the money available (40–100%), and 15% less again if support is under 40.</p>
   <h3>Community support</h3>
   <div class="tablewrap"><table class="t"><thead><tr><th>Factor</th><th>Effect</th><th>Notes</th></tr></thead><tbody>${fac.map(([a, b, c]) => `<tr><td>${a}</td><td>${b}</td><td>${c}</td></tr>`).join("")}</tbody></table></div>
-  <p>Support is clamped to 0–100 and recalculated each period from the period's events.</p>
+  <p>Support is clamped to 0–100. Each period starts halfway between 70 and where support ended last period, so trust partly recovers (new councillors, new residents) but a bad period still follows you.</p>
   <h3>The Herald</h3>
   <p>Stories appear when their conditions are met: recovery funding after a $100M flood year (buybacks, raising and retreat at half price), an inquiry after lives are lost, infill offers when a levee held or the river was quiet, deferral of maintenance and complaints about the wall after 20 quiet years, a developer challenge to high design standards, a Soggyton claim when downstream damage tops $30M, and revised climate change projections every round.</p>
   <h3>Business as usual</h3>
@@ -1893,5 +2052,5 @@ showTab(startTab, true);
 
 
 </script>
-
-</body></html>
+</body>
+</html>
